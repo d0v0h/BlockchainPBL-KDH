@@ -87,9 +87,25 @@ def evaluate(model):
     all_scores = np.concatenate(all_scores)
     all_labels = np.concatenate(all_labels)
     
-    eer = compute_eer(all_labels, all_scores)
-    
-    return eer * 100
+    # 전체 EER
+    eer_total = compute_eer(all_labels, all_scores) * 100.0
+
+    # ko / en 구간 인덱스 계산
+    n_ko = len(ko_file)
+
+    scores_ko  = all_scores[:n_ko]
+    labels_ko  = all_labels[:n_ko]
+    scores_en  = all_scores[n_ko:]
+    labels_en  = all_labels[n_ko:]
+
+    eer_ko = compute_eer(labels_ko, scores_ko) * 100.0
+    eer_en = compute_eer(labels_en, scores_en) * 100.0
+
+    print(f"EER total: {eer_total:.2f}%")
+    print(f"EER ko   : {eer_ko:.2f}%")
+    print(f"EER en   : {eer_en:.2f}%")
+
+    return eer_total
 
 
 # --- weight 무결성 검증 ----------------------------------

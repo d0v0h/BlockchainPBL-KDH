@@ -3,7 +3,18 @@ from torch import Tensor
 from torch.utils.data import Dataset
 import librosa
 import numpy as np
+import warnings
 
+warnings.filterwarnings(
+    "ignore",
+    message="PySoundFile failed. Trying audioread instead.",
+    category=UserWarning,
+)
+warnings.filterwarnings(
+    "ignore",
+    message="librosa.core.audio.__audioread_load",
+    category=FutureWarning,
+)
 
 ___author__ = "Hemlata Tak"
 __email__ = "tak@eurecom.fr"
